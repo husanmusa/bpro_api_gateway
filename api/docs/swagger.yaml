@@ -1,0 +1,514 @@
+definitions:
+  book_pro_service.Book:
+    properties:
+      author_name:
+        type: string
+      book_category:
+        type: string
+      book_category_id:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      pages:
+        type: integer
+    type: object
+  book_pro_service.BookCategory:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  book_pro_service.GetBookCategoryListRes:
+    properties:
+      book_categories:
+        items:
+          $ref: '#/definitions/book_pro_service.BookCategory'
+        type: array
+      count:
+        type: integer
+    type: object
+  book_pro_service.GetBookListResponse:
+    properties:
+      books:
+        items:
+          $ref: '#/definitions/book_pro_service.Book'
+        type: array
+      count:
+        type: integer
+    type: object
+  http.Response:
+    properties:
+      data: {}
+      description:
+        type: string
+      error: {}
+      status:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/book:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: offset
+        in: query
+        name: offset
+        type: integer
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: category_id
+        in: query
+        name: category_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GetBook ResponseBody
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/book_pro_service.GetBookListResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal server error
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get book list
+      tags:
+      - Book
+  /api/book/:
+    post:
+      consumes:
+      - application/json
+      description: This API for creating a new book
+      parameters:
+      - description: BookCreateRequest
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/book_pro_service.Book'
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad request
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal server error
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new book
+      tags:
+      - Book
+  /api/book/{book_id}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete_book
+      parameters:
+      - description: book_id
+        in: path
+        name: book_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success DeleteBook
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal server error
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete book by_id
+      tags:
+      - Book
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: book_id
+        in: path
+        name: book_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GetBook ResponseBody
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/book_pro_service.Book'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal server error
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get book by book_id
+      tags:
+      - Book
+    put:
+      consumes:
+      - application/json
+      operationId: update_book
+      parameters:
+      - description: BookUpdateRequest
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/book_pro_service.Book'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Update
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal server error
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update book by_id
+      tags:
+      - Book
+  /api/bookCategory:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: offset
+        in: query
+        name: offset
+        type: integer
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: category_id
+        in: query
+        name: category_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GetBookCategory ResponseBody
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/book_pro_service.GetBookCategoryListRes'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal server error
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get bookCategory list
+      tags:
+      - BookCategory
+  /api/bookCategory/:
+    post:
+      consumes:
+      - application/json
+      description: This API for creating a new bookCategory
+      parameters:
+      - description: BookCategoryCreateRequest
+        in: body
+        name: bookCategory
+        required: true
+        schema:
+          $ref: '#/definitions/book_pro_service.BookCategory'
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad request
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal server error
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new bookCategory
+      tags:
+      - BookCategory
+  /api/bookCategory/{bookCategory_id}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete_bookCategory
+      parameters:
+      - description: bookCategory_id
+        in: path
+        name: bookCategory_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success DeleteBookCategory
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal server error
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete bookCategory by_id
+      tags:
+      - BookCategory
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: bookCategory_id
+        in: path
+        name: bookCategory_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GetBookCategory ResponseBody
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/book_pro_service.BookCategory'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal server error
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get bookCategory by bookCategory_id
+      tags:
+      - BookCategory
+    put:
+      consumes:
+      - application/json
+      operationId: update_bookCategory
+      parameters:
+      - description: BookCategoryUpdateRequest
+        in: body
+        name: bookCategory
+        required: true
+        schema:
+          $ref: '#/definitions/book_pro_service.BookCategory'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success Update
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal server error
+          schema:
+            allOf:
+            - $ref: '#/definitions/http.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update bookCategory by_id
+      tags:
+      - BookCategory
+securityDefinitions:
+  ApiKeyAuth:
+    description: This is a api gateway
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
