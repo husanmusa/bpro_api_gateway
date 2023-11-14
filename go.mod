@@ -1,11 +1,10 @@
 module github.com/husanmusa/bpro_api_gateway
 
-go 1.21.0
+go 1.19
 
 require (
 	github.com/arsmn/fiber-swagger/v2 v2.31.1
 	github.com/gofiber/fiber/v2 v2.51.0
-	github.com/golang/protobuf v1.5.3
 	github.com/joho/godotenv v1.5.1
 	github.com/saidamir98/udevs_pkg v0.0.0-20230619074042-397de4e67eeb
 	github.com/spf13/cast v1.5.1
@@ -23,6 +22,7 @@ require (
 	github.com/go-openapi/jsonreference v0.20.2 // indirect
 	github.com/go-openapi/spec v0.20.9 // indirect
 	github.com/go-openapi/swag v0.22.4 // indirect
+	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/uuid v1.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/klauspost/compress v1.16.7 // indirect

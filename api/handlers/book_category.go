@@ -18,11 +18,16 @@ import (
 // Success 201 {object} http.Response{data=string} "BookCategory data"
 // @Failure 400 {object} http.Response{data=string} "Bad request"
 // @Failure 500 {object} http.Response{data=string} "Internal server error"
-// @Router /api/bookCategory/ [POST]
+// @Router /api/book_Category/ [POST]
 func (h *Handler) CreateBookCategory(c *fiber.Ctx) error {
+	ok, err := h.HasAccess(c, "bookUpt", "write")
+	if !ok {
+		return err
+	}
+
 	var bookCategory pb.BookCategory
 
-	err := c.BodyParser(&bookCategory)
+	err = c.BodyParser(&bookCategory)
 	if err != nil {
 		return h.handleResponse(c, http.BadRequest, err.Error())
 	}
@@ -50,10 +55,14 @@ func (h *Handler) CreateBookCategory(c *fiber.Ctx) error {
 // @Success 200 {object} http.Response{data=book_pro_service.BookCategory} "GetBookCategory ResponseBody"
 // @Failure 400 {object} http.Response{data=string} "Bad request"
 // @Failure 500 {object} http.Response{data=string} "Internal server error"
-// @Router /api/bookCategory/{bookCategory_id} [GET]
+// @Router /api/book_category/{book_category_id} [GET]
 func (h *Handler) GetBookCategory(c *fiber.Ctx) error {
+	ok, err := h.HasAccess(c, "bookGet", "read")
+	if !ok {
+		return err
+	}
 
-	id := c.Params("bookCategory_id")
+	id := c.Params("book_category_id")
 	resp, err := h.services.BookCategoryService().GetBookCategory(
 		c.Context(),
 		&pb.ById{
@@ -77,12 +86,15 @@ func (h *Handler) GetBookCategory(c *fiber.Ctx) error {
 // @Produce json
 // @Param offset query integer false "offset"
 // @Param limit query integer false "limit"
-// @Param category_id query string false "category_id"
 // @Success 200 {object} http.Response{data=book_pro_service.GetBookCategoryListRes} "GetBookCategory ResponseBody"
 // @Failure 400 {object} http.Response{data=string} "Bad request"
 // @Failure 500 {object} http.Response{data=string} "Internal server error"
-// @Router /api/bookCategory [GET]
+// @Router /api/book_category [GET]
 func (h *Handler) GetBookCategoryList(c *fiber.Ctx) error {
+	ok, err := h.HasAccess(c, "bookGet", "read")
+	if !ok {
+		return err
+	}
 
 	limit, err := h.getOffsetParam(c)
 	if err != nil {
@@ -119,18 +131,24 @@ func (h *Handler) GetBookCategoryList(c *fiber.Ctx) error {
 // @Success 200 {object} http.Response{data=string} "Success Update"
 // @Failure 400 {object} http.Response{data=string} "Bad request"
 // @Failure 500 {object} http.Response{data=string} "Internal server error"
-// @Router /api/bookCategory/{bookCategory_id} [PUT]
+// @Router /api/book_category/{book_category_id} [PUT]
 func (h *Handler) UpdateBookCategory(c *fiber.Ctx) error {
-	var user pb.BookCategory
+	ok, err := h.HasAccess(c, "bookUpt", "write")
+	if !ok {
+		return err
+	}
 
-	err := c.BodyParser(&user)
+	var bookCategory pb.BookCategory
+	bookCategory.Id = c.Params("book_category_id")
+
+	err = c.BodyParser(&bookCategory)
 	if err != nil {
 		return h.handleResponse(c, http.BadRequest, err.Error())
 	}
 
 	_, err = h.services.BookCategoryService().UpdateBookCategory(
 		c.Context(),
-		&user,
+		&bookCategory,
 	)
 
 	if err != nil {
@@ -151,12 +169,16 @@ func (h *Handler) UpdateBookCategory(c *fiber.Ctx) error {
 // @Success 200 {object} http.Response{data=string} "Success DeleteBookCategory"
 // @Failure 400 {object} http.Response{data=string} "Bad request"
 // @Failure 500 {object} http.Response{data=string} "Internal server error"
-// @Router /api/bookCategory/{bookCategory_id} [DELETE]
+// @Router /api/book_category/{book_category_id} [DELETE]
 func (h *Handler) DeleteBookCategory(c *fiber.Ctx) error {
+	ok, err := h.HasAccess(c, "bookUpt", "write")
+	if !ok {
+		return err
+	}
 
-	id := c.Params("bookCategory_id")
+	id := c.Params("book_category_id")
 
-	_, err := h.services.BookCategoryService().DeleteBookCategory(
+	_, err = h.services.BookCategoryService().DeleteBookCategory(
 		c.Context(),
 		&pb.ById{
 			Id: id,

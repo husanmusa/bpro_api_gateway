@@ -20,9 +20,14 @@ import (
 // @Failure 500 {object} http.Response{data=string} "Internal server error"
 // @Router /api/book/ [POST]
 func (h *Handler) CreateBook(c *fiber.Ctx) error {
+	ok, err := h.HasAccess(c, "bookUpt", "write")
+	if !ok {
+		return err
+	}
+
 	var book pb.Book
 
-	err := c.BodyParser(&book)
+	err = c.BodyParser(&book)
 	if err != nil {
 		return h.handleResponse(c, http.BadRequest, err.Error())
 	}
@@ -52,6 +57,10 @@ func (h *Handler) CreateBook(c *fiber.Ctx) error {
 // @Failure 500 {object} http.Response{data=string} "Internal server error"
 // @Router /api/book/{book_id} [GET]
 func (h *Handler) GetBook(c *fiber.Ctx) error {
+	ok, err := h.HasAccess(c, "bookGet", "read")
+	if !ok {
+		return err
+	}
 
 	id := c.Params("book_id")
 	resp, err := h.services.BookService().GetBook(
@@ -83,6 +92,10 @@ func (h *Handler) GetBook(c *fiber.Ctx) error {
 // @Failure 500 {object} http.Response{data=string} "Internal server error"
 // @Router /api/book [GET]
 func (h *Handler) GetBookList(c *fiber.Ctx) error {
+	ok, err := h.HasAccess(c, "bookGet", "read")
+	if !ok {
+		return err
+	}
 
 	limit, err := h.getOffsetParam(c)
 	if err != nil {
@@ -122,16 +135,22 @@ func (h *Handler) GetBookList(c *fiber.Ctx) error {
 // @Failure 500 {object} http.Response{data=string} "Internal server error"
 // @Router /api/book/{book_id} [PUT]
 func (h *Handler) UpdateBook(c *fiber.Ctx) error {
-	var user pb.Book
+	ok, err := h.HasAccess(c, "bookUpt", "write")
+	if !ok {
+		return err
+	}
 
-	err := c.BodyParser(&user)
+	var book pb.Book
+	book.Id = c.Params("book_category_id")
+
+	err = c.BodyParser(&book)
 	if err != nil {
 		return h.handleResponse(c, http.BadRequest, err.Error())
 	}
 
 	_, err = h.services.BookService().UpdateBook(
 		c.Context(),
-		&user,
+		&book,
 	)
 
 	if err != nil {
@@ -154,10 +173,14 @@ func (h *Handler) UpdateBook(c *fiber.Ctx) error {
 // @Failure 500 {object} http.Response{data=string} "Internal server error"
 // @Router /api/book/{book_id} [DELETE]
 func (h *Handler) DeleteBook(c *fiber.Ctx) error {
+	ok, err := h.HasAccess(c, "bookUpt", "write")
+	if !ok {
+		return err
+	}
 
 	id := c.Params("book_id")
 
-	_, err := h.services.BookService().DeleteBook(
+	_, err = h.services.BookService().DeleteBook(
 		c.Context(),
 		&pb.ById{
 			Id: id,

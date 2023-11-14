@@ -39,12 +39,18 @@ func SetUpRouter(h handlers.Handler, cfg config.Config, log logger2.LoggerI) *fi
 	router.Get("/api/swagger/*", swagger.HandlerDefault)
 	r := router.Group("/api")
 
-	// APPOINTMENT
+	// BOOK
 	r.Post("/book", h.CreateBook)
 	r.Get("/book/:book_id", h.GetBook)
 	r.Get("/book", h.GetBookList)
 	r.Put("/book/:book_id", h.UpdateBook)
 	r.Delete("/book/:book_id", h.DeleteBook)
 
+	// BOOK CATEGORY
+	r.Post("/book_category", h.CreateBookCategory)
+	r.Get("/book_category/:book_category_id", h.GetBookCategory)
+	r.Get("/book_category", h.GetBookCategoryList)
+	r.Put("/book_category/:book_category_id", h.UpdateBookCategory)
+	r.Delete("/book_category/:book_category_id", h.DeleteBookCategory)
 	return router
 }
