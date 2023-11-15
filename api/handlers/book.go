@@ -129,6 +129,7 @@ func (h *Handler) GetBookList(c *fiber.Ctx) error {
 // @Tags Book
 // @Accept json
 // @Produce json
+// @Param book_id path string false "book_id"
 // @Param book body book_pro_service.Book true "BookUpdateRequest"
 // @Success 200 {object} http.Response{data=string} "Success Update"
 // @Failure 400 {object} http.Response{data=string} "Bad request"
@@ -141,7 +142,7 @@ func (h *Handler) UpdateBook(c *fiber.Ctx) error {
 	}
 
 	var book pb.Book
-	book.Id = c.Params("book_category_id")
+	book.Id = c.Params("book_id")
 
 	err = c.BodyParser(&book)
 	if err != nil {

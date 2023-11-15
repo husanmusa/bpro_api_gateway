@@ -283,6 +283,12 @@ const docTemplate = `{
                 "operationId": "update_book",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "book_id",
+                        "name": "book_id",
+                        "in": "path"
+                    },
+                    {
                         "description": "BookUpdateRequest",
                         "name": "book",
                         "in": "body",
@@ -611,7 +617,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "bookCategory_id",
-                        "name": "bookCategory_id",
+                        "name": "book_category_id",
                         "in": "path",
                         "required": true
                     }
@@ -691,6 +697,12 @@ const docTemplate = `{
                 "summary": "Update bookCategory by_id",
                 "operationId": "update_bookCategory",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "bookCategory_id",
+                        "name": "book_category_id",
+                        "in": "path"
+                    },
                     {
                         "description": "BookCategoryUpdateRequest",
                         "name": "bookCategory",
@@ -779,8 +791,9 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "bookCategory_id",
-                        "name": "bookCategory_id",
-                        "in": "path"
+                        "name": "book_category_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {

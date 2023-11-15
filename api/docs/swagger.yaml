@@ -241,6 +241,10 @@ paths:
       - application/json
       operationId: update_book
       parameters:
+      - description: book_id
+        in: path
+        name: book_id
+        type: string
       - description: BookUpdateRequest
         in: body
         name: book
@@ -376,7 +380,8 @@ paths:
       parameters:
       - description: bookCategory_id
         in: path
-        name: bookCategory_id
+        name: book_category_id
+        required: true
         type: string
       produces:
       - application/json
@@ -419,7 +424,7 @@ paths:
       parameters:
       - description: bookCategory_id
         in: path
-        name: bookCategory_id
+        name: book_category_id
         required: true
         type: string
       produces:
@@ -462,6 +467,10 @@ paths:
       - application/json
       operationId: update_bookCategory
       parameters:
+      - description: bookCategory_id
+        in: path
+        name: book_category_id
+        type: string
       - description: BookCategoryUpdateRequest
         in: body
         name: bookCategory

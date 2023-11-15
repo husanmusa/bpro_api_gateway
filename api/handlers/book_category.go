@@ -51,7 +51,7 @@ func (h *Handler) CreateBookCategory(c *fiber.Ctx) error {
 // @Tags BookCategory
 // @Accept json
 // @Produce json
-// @Param bookCategory_id path string true "bookCategory_id"
+// @Param book_category_id path string true "bookCategory_id"
 // @Success 200 {object} http.Response{data=book_pro_service.BookCategory} "GetBookCategory ResponseBody"
 // @Failure 400 {object} http.Response{data=string} "Bad request"
 // @Failure 500 {object} http.Response{data=string} "Internal server error"
@@ -127,6 +127,7 @@ func (h *Handler) GetBookCategoryList(c *fiber.Ctx) error {
 // @Tags BookCategory
 // @Accept json
 // @Produce json
+// @Param book_category_id path string false "bookCategory_id"
 // @Param bookCategory body book_pro_service.BookCategory true "BookCategoryUpdateRequest"
 // @Success 200 {object} http.Response{data=string} "Success Update"
 // @Failure 400 {object} http.Response{data=string} "Bad request"
@@ -165,7 +166,7 @@ func (h *Handler) UpdateBookCategory(c *fiber.Ctx) error {
 // @Tags BookCategory
 // @Accept json
 // @Produce json
-// @Param bookCategory_id path string false "bookCategory_id"
+// @Param book_category_id path string true "bookCategory_id"
 // @Success 200 {object} http.Response{data=string} "Success DeleteBookCategory"
 // @Failure 400 {object} http.Response{data=string} "Bad request"
 // @Failure 500 {object} http.Response{data=string} "Internal server error"
